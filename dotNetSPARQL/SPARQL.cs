@@ -22,11 +22,11 @@ namespace dotNetSPARQL
         /// <summary>
         /// Returns a Sparql SELECT query with the variable in the object location.
         /// </summary>
-        /// <param name="subject"></param>
-        /// <param name="predicate"></param>
-        /// <param name="variableName"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="subject">The subject URI.</param>
+        /// <param name="predicate">The predicate URI.</param>
+        /// <param name="variableName">The variable name for the object.</param>
+        /// <param name="limit">Maximum number of results to return. Will be ignored if less than 0.</param>
+        /// <returns>A SELECT query with the provided parameters.</returns>
         public string SELECT(Uri subject, Uri predicate, string variableName, int limit = DEFAULT_LIMIT)
         {
             var requestString = string.Format(SELECT_DISTINCT, variableName) + "{ ";
@@ -40,11 +40,11 @@ namespace dotNetSPARQL
         /// <summary>
         /// Returns a Sparql SELECT query with the variable in the predicate location.
         /// </summary>
-        /// <param name="variableName"></param>
-        /// <param name="predicate"></param>
-        /// <param name="obj"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="subject">The subject URI.</param>
+        /// <param name="variableName">The variable name for the object.</param>
+        /// <param name="obj">The object URI.</param>
+        /// <param name="limit">Maximum number of results to return. Will be ignored if less than 0.</param>
+        /// <returns>A SELECT query with the provided parameters.</returns>
         public string SELECT(Uri subject, string variableName, Uri obj, int limit = DEFAULT_LIMIT)
         {
             var requestString = string.Format(SELECT_DISTINCT, variableName) + "{ ";
@@ -58,11 +58,11 @@ namespace dotNetSPARQL
         /// <summary>
         /// Returns a Sparql SELECT query with the variable in the subject location.
         /// </summary>
-        /// <param name="variableName"></param>
-        /// <param name="predicate"></param>
-        /// <param name="obj"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="variableName">The variable name for the subject.</param>
+        /// <param name="predicate">The predicate URI.</param>
+        /// <param name="obj">The object URI.</param>
+        /// <param name="limit">Maximum number of results to return. Will be ignored if less than 0.</param>
+        /// <returns>A SELECT query with the provided parameters.</returns>
         public string SELECT(string variableName, Uri predicate, Uri obj, int limit = DEFAULT_LIMIT)
         {
             var requestString = string.Format(SELECT_DISTINCT, variableName) + "{ ";
@@ -74,13 +74,13 @@ namespace dotNetSPARQL
         }
 
         /// <summary>
-        /// Returns a Sparql SELECT query with the variable in the subject location.
+        /// Returns a Sparql SELECT query with variables in the subject and object locations.
         /// </summary>
-        /// <param name="variableName"></param>
-        /// <param name="predicate"></param>
-        /// <param name="obj"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="subjectVariable">The variable name for the subject.</param>
+        /// <param name="predicate">The predicate URI.</param>
+        /// <param name="objectVariable">The variable name for the object.</param>
+        /// <param name="limit">Maximum number of results to return. Will be ignored if less than 0.</param>
+        /// <returns>A SELECT query with the provided parameters.</returns>
         public string SELECT(string subjectVariable, Uri predicate, string objectVariable, int limit = DEFAULT_LIMIT)
         {
             var requestString = string.Format(SELECT_DISTINCT_TWO_VARIABLES, subjectVariable, objectVariable) + "{ ";
@@ -92,13 +92,13 @@ namespace dotNetSPARQL
         }
 
         /// <summary>
-        /// Returns a Sparql SELECT query with the variable in the subject location.
+        /// Returns a Sparql SELECT query with variables in the predicate and object locations.
         /// </summary>
-        /// <param name="variableName"></param>
-        /// <param name="predicate"></param>
-        /// <param name="obj"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="subject">The subject URI.</param>
+        /// <param name="predicateVariable">The variable name for the predicate.</param>
+        /// <param name="objectVariable">The variable name for the object.</param>
+        /// <param name="limit">Maximum number of results to return. Will be ignored if less than 0.</param>
+        /// <returns>A SELECT query with the provided parameters.</returns>
         public string SELECT(Uri subject, string predicateVariable, string objectVariable, int limit = DEFAULT_LIMIT)
         {
             var requestString = string.Format(SELECT_DISTINCT_TWO_VARIABLES, predicateVariable, objectVariable) + "{ ";
@@ -110,20 +110,20 @@ namespace dotNetSPARQL
         }
 
         /// <summary>
-        /// Returns a Sparql SELECT query with the variable in the subject location.
+        /// Returns a Sparql SELECT query with variables in the subject and predicate locations.
         /// </summary>
-        /// <param name="variableName"></param>
-        /// <param name="predicate"></param>
-        /// <param name="obj"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <param name="subjectVariable">The variable name for the subject.</param>
+        /// <param name="predicateVariable">The variable name for the predicate.</param>
+        /// <param name="obj">The object URI.</param>
+        /// <param name="limit">Maximum number of results to return. Will be ignored if less than 0.</param>
+        /// <returns>A SELECT query with the provided parameters.</returns>
         public string SELECT(string subjectVariable, string predicateVariable, Uri obj, int limit = DEFAULT_LIMIT)
         {
             var requestString = string.Format(SELECT_DISTINCT_TWO_VARIABLES, subjectVariable, predicateVariable) + "{ ";
             requestString += string.Format(VARIABLE_FORMAT, subjectVariable) + " ";
             requestString += string.Format(VARIABLE_FORMAT, predicateVariable) + " ";
             requestString += string.Format(URI_FORMAT, obj) + " ";
-            requestString += " }";
+            requestString += "}";
             return requestString;
         }
         #endregion SELECT
