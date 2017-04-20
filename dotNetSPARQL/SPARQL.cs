@@ -9,7 +9,16 @@ namespace dotNetSPARQL
     public class SPARQL
     {
         const int DEFAULT_LIMIT = 100;
+        const string VARIABLE_FORMAT = "?{0}";
+        const string URI_FORMAT = "<{0}>";
+        const string PREFIX_FORMAT = "PREFIX {0}:<{1}>";
 
+        const string SELECT_DISTINCT = "SELECT DISTINCT ?{0} WHERE ";
+        const string SELECT_DISTINCT_TWO_VARIABLES = "SELECT DISTINCT ?{0}, ?{1} WHERE ";
+
+        const string ASK_WHERE = "ASK WHERE ";
+
+        #region SELECT
         /// <summary>
         /// Returns a Sparql SELECT query with the variable in the object location.
         /// </summary>
@@ -20,9 +29,11 @@ namespace dotNetSPARQL
         /// <returns></returns>
         public string SELECT(Uri subject, Uri predicate, string variableName, int limit = DEFAULT_LIMIT)
         {
-            var requestString = "SELECT DISTINCT ?" + variableName + " WHERE { ";
-            requestString += FormatUri(subject) + " " + FormatUri(predicate) + " ?" + variableName;
-            requestString += " }";
+            var requestString = string.Format(SELECT_DISTINCT, variableName) + "{ ";
+            requestString += string.Format(URI_FORMAT, subject) + " ";
+            requestString += string.Format(URI_FORMAT, predicate) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
+            requestString += "}";
             return requestString;
         }
 
@@ -36,9 +47,11 @@ namespace dotNetSPARQL
         /// <returns></returns>
         public string SELECT(Uri subject, string variableName, Uri obj, int limit = DEFAULT_LIMIT)
         {
-            var requestString = "SELECT DISTINCT ?" + variableName + " WHERE { ";
-            requestString += FormatUri(subject) + " ?" + variableName + " " + FormatUri(obj);
-            requestString += " }";
+            var requestString = string.Format(SELECT_DISTINCT, variableName) + "{ ";
+            requestString += string.Format(URI_FORMAT, subject) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
+            requestString += string.Format(URI_FORMAT, obj) + " ";
+            requestString += "}";
             return requestString;
         }
 
@@ -52,9 +65,11 @@ namespace dotNetSPARQL
         /// <returns></returns>
         public string SELECT(string variableName, Uri predicate, Uri obj, int limit = DEFAULT_LIMIT)
         {
-            var requestString = "SELECT DISTINCT ?" + variableName + " WHERE { ";
-            requestString += "?" + variableName + " " + FormatUri(predicate) + " " + FormatUri(obj);
-            requestString += " }";
+            var requestString = string.Format(SELECT_DISTINCT, variableName) + "{ ";
+            requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
+            requestString += string.Format(URI_FORMAT, predicate) + " ";
+            requestString += string.Format(URI_FORMAT, obj) + " ";
+            requestString += "}";
             return requestString;
         }
 
@@ -68,9 +83,11 @@ namespace dotNetSPARQL
         /// <returns></returns>
         public string SELECT(string subjectVariable, Uri predicate, string objectVariable, int limit = DEFAULT_LIMIT)
         {
-            var requestString = "SELECT DISTINCT ?" + subjectVariable + ", ?" + objectVariable + " WHERE { ";
-            requestString += "?" + subjectVariable + " " + FormatUri(predicate) + " ?" + objectVariable;
-            requestString += " }";
+            var requestString = string.Format(SELECT_DISTINCT_TWO_VARIABLES, subjectVariable, objectVariable) + "{ ";
+            requestString += string.Format(VARIABLE_FORMAT, subjectVariable) + " ";
+            requestString += string.Format(URI_FORMAT, predicate) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, objectVariable) + " ";
+            requestString += "}";
             return requestString;
         }
 
@@ -84,9 +101,11 @@ namespace dotNetSPARQL
         /// <returns></returns>
         public string SELECT(Uri subject, string predicateVariable, string objectVariable, int limit = DEFAULT_LIMIT)
         {
-            var requestString = "SELECT DISTINCT ?" + predicateVariable + ", ?" + objectVariable + " WHERE { ";
-            requestString += FormatUri(subject) + " ?" + predicateVariable + " ?" + objectVariable;
-            requestString += " }";
+            var requestString = string.Format(SELECT_DISTINCT_TWO_VARIABLES, predicateVariable, objectVariable) + "{ ";
+            requestString += string.Format(URI_FORMAT, subject) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, predicateVariable) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, objectVariable) + " ";
+            requestString += "}";
             return requestString;
         }
 
@@ -100,15 +119,54 @@ namespace dotNetSPARQL
         /// <returns></returns>
         public string SELECT(string subjectVariable, string predicateVariable, Uri obj, int limit = DEFAULT_LIMIT)
         {
-            var requestString = "SELECT DISTINCT ?" + subjectVariable + ", ?" + predicateVariable + " WHERE { ";
-            requestString += "?" + subjectVariable + " ?" + predicateVariable + " " + FormatUri(obj);
+            var requestString = string.Format(SELECT_DISTINCT_TWO_VARIABLES, subjectVariable, predicateVariable) + "{ ";
+            requestString += string.Format(VARIABLE_FORMAT, subjectVariable) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, predicateVariable) + " ";
+            requestString += string.Format(URI_FORMAT, obj) + " ";
             requestString += " }";
             return requestString;
         }
-
-        private string FormatUri(Uri uri)
+        #endregion SELECT
+        #region ASK
+        public string ASK(Uri subject, Uri predicate, Uri obj)
         {
-            return "<" + uri.OriginalString + ">";
+            var requestString = ASK_WHERE + "{ ";
+            requestString += string.Format(URI_FORMAT, subject) + " ";
+            requestString += string.Format(URI_FORMAT, predicate) + " ";
+            requestString += string.Format(URI_FORMAT, obj) + " ";
+            requestString += "}";
+            return requestString;
         }
+
+        public string ASK(Uri subject, Uri predicate, string variableName)
+        {
+            var requestString = ASK_WHERE + "{ ";
+            requestString += string.Format(URI_FORMAT, subject) + " ";
+            requestString += string.Format(URI_FORMAT, predicate) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
+            requestString += "}";
+            return requestString;
+        }
+
+        public string ASK(Uri subject, string variableName, Uri obj)
+        {
+            var requestString = ASK_WHERE + "{ ";
+            requestString += string.Format(URI_FORMAT, subject) + " ";
+            requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
+            requestString += string.Format(URI_FORMAT, obj) + " ";
+            requestString += "}";
+            return requestString;
+        }
+
+        public string ASK(string variableName, Uri predicate, Uri obj)
+        {
+            var requestString = ASK_WHERE + "{ ";
+            requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
+            requestString += string.Format(URI_FORMAT, predicate) + " ";
+            requestString += string.Format(URI_FORMAT, obj) + " ";
+            requestString += "}";
+            return requestString;
+        }
+        #endregion ASK
     }
 }
