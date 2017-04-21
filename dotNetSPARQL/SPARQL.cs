@@ -127,7 +127,15 @@ namespace dotNetSPARQL
             return requestString;
         }
         #endregion SELECT
+
         #region ASK
+        /// <summary>
+        /// Returns a Sparql ASK query with the 3 provided Uris.
+        /// </summary>
+        /// <param name="subject">The subject URI.</param>
+        /// <param name="predicate">The predicate URI.</param>
+        /// <param name="obj">The obj URI.</param>
+        /// <returns>An ASK query with the provided parameters.</returns>
         public string ASK(Uri subject, Uri predicate, Uri obj)
         {
             var requestString = ASK_WHERE + "{ ";
@@ -138,6 +146,13 @@ namespace dotNetSPARQL
             return requestString;
         }
 
+        /// <summary>
+        /// Returns a Sparql ASK query with the 2 provided Uris and the variable.
+        /// </summary>
+        /// <param name="subject">The subject URI.</param>
+        /// <param name="predicate">The predicate URI.</param>
+        /// <param name="variableName">The variable name for the object.</param>
+        /// <returns>An ASK query with the provided parameters.</returns>
         public string ASK(Uri subject, Uri predicate, string variableName)
         {
             var requestString = ASK_WHERE + "{ ";
@@ -148,6 +163,13 @@ namespace dotNetSPARQL
             return requestString;
         }
 
+        /// <summary>
+        /// Returns a Sparql ASK query with the 2 provided Uris and the variable.
+        /// </summary>
+        /// <param name="subject">The subject URI.</param>
+        /// <param name="variableName">The variable name for the predicate.</param>
+        /// <param name="obj">The obj URI.</param>
+        /// <returns>An ASK query with the provided parameters.</returns>
         public string ASK(Uri subject, string variableName, Uri obj)
         {
             var requestString = ASK_WHERE + "{ ";
@@ -158,6 +180,13 @@ namespace dotNetSPARQL
             return requestString;
         }
 
+        /// <summary>
+        /// Returns a Sparql ASK query with the 2 provided Uris and the variable.
+        /// </summary>
+        /// <param name="variableName">The variable name for the subject.</param>
+        /// <param name="predicate">The predicate URI.</param>
+        /// <param name="obj">The obj URI.</param>
+        /// <returns>An ASK query with the provided parameters.</returns>
         public string ASK(string variableName, Uri predicate, Uri obj)
         {
             var requestString = ASK_WHERE + "{ ";
