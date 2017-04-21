@@ -34,6 +34,7 @@ namespace dotNetSPARQL
             requestString += string.Format(URI_FORMAT, predicate) + " ";
             requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
             requestString += "}";
+            requestString += GetLimitString(limit);
             return requestString;
         }
 
@@ -52,6 +53,7 @@ namespace dotNetSPARQL
             requestString += string.Format(VARIABLE_FORMAT, variableName) + " ";
             requestString += string.Format(URI_FORMAT, obj) + " ";
             requestString += "}";
+            requestString += GetLimitString(limit);
             return requestString;
         }
 
@@ -70,6 +72,7 @@ namespace dotNetSPARQL
             requestString += string.Format(URI_FORMAT, predicate) + " ";
             requestString += string.Format(URI_FORMAT, obj) + " ";
             requestString += "}";
+            requestString += GetLimitString(limit);
             return requestString;
         }
 
@@ -88,6 +91,7 @@ namespace dotNetSPARQL
             requestString += string.Format(URI_FORMAT, predicate) + " ";
             requestString += string.Format(VARIABLE_FORMAT, objectVariable) + " ";
             requestString += "}";
+            requestString += GetLimitString(limit);
             return requestString;
         }
 
@@ -106,6 +110,7 @@ namespace dotNetSPARQL
             requestString += string.Format(VARIABLE_FORMAT, predicateVariable) + " ";
             requestString += string.Format(VARIABLE_FORMAT, objectVariable) + " ";
             requestString += "}";
+            requestString += GetLimitString(limit);
             return requestString;
         }
 
@@ -124,6 +129,7 @@ namespace dotNetSPARQL
             requestString += string.Format(VARIABLE_FORMAT, predicateVariable) + " ";
             requestString += string.Format(URI_FORMAT, obj) + " ";
             requestString += "}";
+            requestString += GetLimitString(limit);
             return requestString;
         }
         #endregion SELECT
@@ -197,5 +203,9 @@ namespace dotNetSPARQL
             return requestString;
         }
         #endregion ASK
+        private string GetLimitString(int limit)
+        {
+            return limit >= 0 ? " LIMIT " + limit : "";
+        }
     }
 }
