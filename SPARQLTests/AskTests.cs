@@ -10,9 +10,8 @@ namespace SPARQLTests
     public class AskTests
     {
         [TestMethod]
-        public void ValidASKNoVariable()
+        public void ASKNoVariable()
         {
-
             var expectedQuery = "ASK WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Seth_MacFarlane> }";
 
             var subject = new UriNode("http://dbpedia.org/resource/Family_Guy");
@@ -25,7 +24,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidASKSubjectVariable()
+        public void ASKSubjectVariable()
         {
             var expectedQuery = "ASK WHERE { ?uri <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Seth_MacFarlane> }";
 
@@ -39,7 +38,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidASKPredicateVariable()
+        public void ASKPredicateVariable()
         {
             var expectedQuery = "ASK WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate <http://dbpedia.org/resource/Seth_MacFarlane> }";
             var subject = new UriNode("http://dbpedia.org/resource/Family_Guy");
@@ -52,7 +51,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidASKObjectVariable()
+        public void ASKObjectVariable()
         {
             var expectedQuery = "ASK WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/author> ?uri }";
             var subject = new UriNode("http://dbpedia.org/resource/Family_Guy");
@@ -65,7 +64,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidASKChainedQuery()
+        public void ASKChainedQuery()
         {
             var expectedQuery = "ASK WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/author> ?uri . ?uri <http://dbpedia.org/ontology/birthPlace> ?obj }";
             var subject = new UriNode("http://dbpedia.org/resource/Family_Guy");

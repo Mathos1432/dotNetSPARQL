@@ -9,7 +9,7 @@ namespace SPARQLTests
     public class SelectTests
     {
         [TestMethod]
-        public void ValidSELECTObjectVariableNoDistinct()
+        public void SELECTObjectVariableNoDistinct()
         {
             var expectedQuery = "SELECT ?uri WHERE { <http://dbpedia.org/resource/Paris> <http://dbpedia.org/ontology/mayor> ?uri }";
 
@@ -23,7 +23,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidSELECTObjectVariableNoLimit()
+        public void SELECTObjectVariableNoLimit()
         {
             var expectedQuery = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Paris> <http://dbpedia.org/ontology/mayor> ?uri }";
 
@@ -37,7 +37,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidSELECTPredicateVariableNoLimit()
+        public void SELECTPredicateVariableNoLimit()
         {
 
             var expectedQuery = "SELECT DISTINCT ?predicate WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate <http://dbpedia.org/resource/Seth_MacFarlane> }";
@@ -51,7 +51,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidSELECTSubjectVariableNoLimit()
+        public void SELECTSubjectVariableNoLimit()
         {
             var expectedQuery = "SELECT DISTINCT ?subject WHERE { ?subject <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Seth_MacFarlane> }";
 
@@ -65,7 +65,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidSELECTSubjectPredicateVariableNoLimit()
+        public void SELECTSubjectPredicateVariableNoLimit()
         {
             var expectedQuery = "SELECT DISTINCT ?subject, ?predicate WHERE { ?subject ?predicate <http://dbpedia.org/resource/Paris> }";
 
@@ -80,7 +80,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidSELECTPredicateObjectVariableLimit100()
+        public void SELECTPredicateObjectVariableLimit100()
         {
             var expectedQuery = "SELECT DISTINCT ?predicate, ?object WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate ?object } LIMIT 100";
 
@@ -95,7 +95,7 @@ namespace SPARQLTests
         }
 
         [TestMethod]
-        public void ValidSELECTMultipleTriples()
+        public void SELECTMultipleTriples()
         {
             var expectedQuery = "SELECT DISTINCT ?object WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/author> ?uri . ?uri <http://dbpedia.org/ontology/birthPlace> ?object }";
 

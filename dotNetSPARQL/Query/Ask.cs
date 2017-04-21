@@ -5,8 +5,6 @@ namespace dotNetSPARQL.Query
 {
     public class Ask : BaseQuery
     {
-        const int DEFAULT_LIMIT = 100;
-
         private List<Triple> _triples;
 
         public Ask(List<Triple> triples)

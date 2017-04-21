@@ -9,9 +9,20 @@ namespace dotNetSPARQL.Query
         private string[] _variables;
         private int _limit;
         private bool _distinct;
+        private BaseClause[] _clauses;
+
+        public Select(List<Triple> triples, BaseClause[] clauses, string[] variables, bool distinct = false, int limit = -1)
+        {
+            _clauses = clauses;
+            _triples = triples;
+            _variables = variables;
+            _limit = limit;
+            _distinct = distinct;
+        }
 
         public Select(List<Triple> triples, string[] variables, bool distinct = false, int limit = -1)
         {
+            _clauses = new BaseClause[0];
             _triples = triples;
             _variables = variables;
             _limit = limit;
@@ -20,6 +31,7 @@ namespace dotNetSPARQL.Query
 
         public Select(Triple triple, string variable = "", bool distinct = false, int limit = -1)
         {
+            _clauses = new BaseClause[0];
             _triples = new List<Triple> { triple };
             if (!string.IsNullOrWhiteSpace(variable))
             {
@@ -51,7 +63,25 @@ namespace dotNetSPARQL.Query
             query += "WHERE { ";
             query += CombineTriples(_triples);
             query += " }" + (_limit >= 0 ? " LIMIT " + _limit : "");
+
+            query = AddClausesToQuery(query);
             return query;
+        }
+
+        private string AddClausesToQuery(string selectQuery)
+        {
+            foreach (var clause in _clauses)
+            {
+                if (clause.GetType() == typeof(CountClause))
+                {
+                    selectQuery = selectQuery.Insert(selectQuery.IndexOf(" WHERE "), " " + clause.ToString());
+                }
+                else if (clause.GetType() == typeof(OrderByClause))
+                {
+                    selectQuery += " " + clause.ToString();
+                }
+            }
+            return selectQuery;
         }
     }
 }
