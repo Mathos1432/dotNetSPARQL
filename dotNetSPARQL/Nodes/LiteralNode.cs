@@ -10,7 +10,7 @@ namespace dotNetSPARQL.Nodes
     {
         private string _value;
         private string _language;
-        public LiteralNode(string value, string language)
+        public LiteralNode(string value, string language = "")
         {
             _value = value;
             _language = language;
@@ -18,7 +18,7 @@ namespace dotNetSPARQL.Nodes
 
         public override string ToString()
         {
-            return "\"" + _value + "\"@" + _language;
+            return "\"" + _value + "\"" + (string.IsNullOrWhiteSpace(_language) ? "" : "@" + _language);
         }
     }
 }
