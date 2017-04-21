@@ -5,14 +5,12 @@ namespace dotNetSPARQL.Query
 {
     public class Select : BaseQuery
     {
-        const int DEFAULT_LIMIT = 100;
-
         private List<Triple> _triples;
         private string[] _variables;
         private int _limit;
         private bool _distinct;
 
-        public Select(string[] variables, List<Triple> triples, bool distinct = false, int limit = DEFAULT_LIMIT)
+        public Select(List<Triple> triples, string[] variables, bool distinct = false, int limit = -1)
         {
             _triples = triples;
             _variables = variables;
@@ -20,10 +18,17 @@ namespace dotNetSPARQL.Query
             _distinct = distinct;
         }
 
-        public Select(string variable, Triple triple, bool distinct = false, int limit = DEFAULT_LIMIT)
+        public Select(Triple triple, string variable = "", bool distinct = false, int limit = -1)
         {
             _triples = new List<Triple> { triple };
-            _variables = new string[] { variable };
+            if (!string.IsNullOrWhiteSpace(variable))
+            {
+                _variables = new string[] { variable };
+            }
+            else
+            {
+                _variables = new string[0];
+            }
             _limit = limit;
             _distinct = distinct;
         }

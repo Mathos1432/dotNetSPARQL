@@ -46,6 +46,7 @@
     <Compile Include="Nodes\VariableNode.cs" />
     <Compile Include="Query\Ask.cs" />
     <Compile Include="Query\BaseQuery.cs" />
+    <Compile Include="Query\Count.cs" />
     <Compile Include="Query\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Nodes\UriNode.cs" />

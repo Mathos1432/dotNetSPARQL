@@ -18,7 +18,7 @@ namespace SPARQLTests
             var obj = new VariableNode("uri");
             var triple = new Triple(subject, predicate, obj);
 
-            var query = new dotNetSPARQL.Query.Select("uri", triple, false, -1);
+            var query = new dotNetSPARQL.Query.Select(triple, "uri");
             Assert.AreEqual(expectedQuery, query.ToString());
         }
 
@@ -32,7 +32,7 @@ namespace SPARQLTests
             var obj = new VariableNode("uri");
             var triple = new Triple(subject, predicate, obj);
 
-            var query = new dotNetSPARQL.Query.Select("uri", triple, true, -1);
+            var query = new dotNetSPARQL.Query.Select(triple, "uri", true);
             Assert.AreEqual(expectedQuery, query.ToString());
         }
 
@@ -46,7 +46,7 @@ namespace SPARQLTests
             var obj = new UriNode(new Uri("http://dbpedia.org/resource/Seth_MacFarlane"));
             var triple = new Triple(subject, predicate, obj);
 
-            var query = new dotNetSPARQL.Query.Select("predicate", triple, true, -1);
+            var query = new dotNetSPARQL.Query.Select(triple, "predicate", true);
             Assert.AreEqual(expectedQuery, query.ToString());
         }
 
@@ -60,7 +60,7 @@ namespace SPARQLTests
             var obj = new UriNode(new Uri("http://dbpedia.org/resource/Seth_MacFarlane"));
             var triple = new Triple(subject, predicate, obj);
 
-            var query = new dotNetSPARQL.Query.Select("subject", triple, true, -1);
+            var query = new dotNetSPARQL.Query.Select(triple, "subject", true);
             Assert.AreEqual(expectedQuery, query.ToString());
         }
 
@@ -75,7 +75,7 @@ namespace SPARQLTests
             var triple = new Triple(subject, predicate, obj);
             var variables = new string[] { "subject", "predicate" };
 
-            var query = new dotNetSPARQL.Query.Select(variables, new List<Triple> { triple }, true, -1);
+            var query = new dotNetSPARQL.Query.Select(new List<Triple> { triple }, variables, true);
             Assert.AreEqual(expectedQuery, query.ToString());
         }
 
@@ -90,7 +90,7 @@ namespace SPARQLTests
             var triple = new Triple(subject, predicate, obj);
             var variables = new string[] { "predicate", "object" };
 
-            var query = new dotNetSPARQL.Query.Select(variables, new List<Triple> { triple }, true, 100);
+            var query = new dotNetSPARQL.Query.Select(new List<Triple> { triple }, variables, true, 100);
             Assert.AreEqual(expectedQuery, query.ToString());
         }
 
@@ -106,7 +106,7 @@ namespace SPARQLTests
             var secondTriple = new Triple(new VariableNode("uri"), new UriNode("http://dbpedia.org/ontology/birthPlace"), new VariableNode("object"));
             var variables = new string[] { "object" };
 
-            var query = new dotNetSPARQL.Query.Select(variables, new List<Triple> { firstTriple, secondTriple }, true, -1);
+            var query = new dotNetSPARQL.Query.Select(new List<Triple> { firstTriple, secondTriple }, variables, true);
             Assert.AreEqual(expectedQuery, query.ToString());
         }
     }
