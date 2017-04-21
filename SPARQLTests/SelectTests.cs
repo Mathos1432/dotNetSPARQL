@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using dotNetSPARQL;
+using dotNetSPARQL.Nodes;
+using System.Collections.Generic;
 
 namespace SPARQLTests
 {
@@ -10,146 +11,89 @@ namespace SPARQLTests
         [TestMethod]
         public void ValidSELECTObjectVariableNoLimit()
         {
-            var subject = new Uri("http://dbpedia.org/resource/Paris");
-            var predicate = new Uri("http://dbpedia.org/ontology/mayor");
-            var objVariable = "uri";
             var expectedQuery = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Paris> <http://dbpedia.org/ontology/mayor> ?uri }";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subject, predicate, objVariable, -1);
-            Assert.AreEqual(expectedQuery, query);
+
+            var subject = new UriNode(new Uri("http://dbpedia.org/resource/Paris"));
+            var predicate = new UriNode(new Uri("http://dbpedia.org/ontology/mayor"));
+            var obj = new VariableNode("uri");
+            var triple = new Triple(subject, predicate, obj);
+
+            var query = new dotNetSPARQL.Query.Select("uri", triple, true, -1);
+            Assert.AreEqual(expectedQuery, query.ToString());
         }
 
         [TestMethod]
         public void ValidSELECTPredicateVariableNoLimit()
         {
-            var subject = new Uri("http://dbpedia.org/resource/Family_Guy");
-            var predicateVariable = "predicate";
-            var obj = new Uri("http://dbpedia.org/resource/Seth_MacFarlane");
+
             var expectedQuery = "SELECT DISTINCT ?predicate WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate <http://dbpedia.org/resource/Seth_MacFarlane> }";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subject, predicateVariable, obj, -1);
-            Assert.AreEqual(expectedQuery, query);
+            var subject = new UriNode(new Uri("http://dbpedia.org/resource/Family_Guy"));
+            var predicate = new VariableNode("predicate");
+            var obj = new UriNode(new Uri("http://dbpedia.org/resource/Seth_MacFarlane"));
+            var triple = new Triple(subject, predicate, obj);
+
+            var query = new dotNetSPARQL.Query.Select("predicate", triple, true, -1);
+            Assert.AreEqual(expectedQuery, query.ToString());
         }
 
         [TestMethod]
         public void ValidSELECTSubjectVariableNoLimit()
         {
-            var subjectVariable = "subject";
-            var predicate = new Uri("http://dbpedia.org/ontology/author");
-            var obj = new Uri("http://dbpedia.org/resource/Seth_MacFarlane");
             var expectedQuery = "SELECT DISTINCT ?subject WHERE { ?subject <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Seth_MacFarlane> }";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subjectVariable, predicate, obj, -1);
-            Assert.AreEqual(expectedQuery, query);
+
+            var subject = new VariableNode("subject");
+            var predicate = new UriNode(new Uri("http://dbpedia.org/ontology/author"));
+            var obj = new UriNode(new Uri("http://dbpedia.org/resource/Seth_MacFarlane"));
+            var triple = new Triple(subject, predicate, obj);
+
+            var query = new dotNetSPARQL.Query.Select("subject", triple, true, -1);
+            Assert.AreEqual(expectedQuery, query.ToString());
         }
 
         [TestMethod]
         public void ValidSELECTSubjectPredicateVariableNoLimit()
         {
-            var subjectVariable = "uri";
-            var predicateVarible = "predicate";
-            var obj = new Uri("http://dbpedia.org/resource/Paris");
-            var expectedQuery = "SELECT DISTINCT ?uri, ?predicate WHERE { ?uri ?predicate <http://dbpedia.org/resource/Paris> }";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subjectVariable, predicateVarible, obj, -1);
-            Assert.AreEqual(expectedQuery, query);
-        }
+            var expectedQuery = "SELECT DISTINCT ?subject, ?predicate WHERE { ?subject ?predicate <http://dbpedia.org/resource/Paris> }";
 
-        [TestMethod]
-        public void ValidSELECTPredicateObjectVariableNoLimit()
-        {
-            var subject = new Uri("http://dbpedia.org/resource/Family_Guy");
-            var predicateVariable = "predicate";
-            var objectVariable = "obj";
-            var expectedQuery = "SELECT DISTINCT ?predicate, ?obj WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate ?obj }";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subject, predicateVariable, objectVariable, -1);
-            Assert.AreEqual(expectedQuery, query);
-        }
+            var subject = new VariableNode("subject");
+            var predicate = new VariableNode("predicate");
+            var obj = new UriNode(new Uri("http://dbpedia.org/resource/Paris"));
+            var triple = new Triple(subject, predicate, obj);
+            var variables = new string[] { "subject", "predicate" };
 
-        [TestMethod]
-        public void ValidSELECTSubjectObjectVariableNoLimit()
-        {
-            var subjectVariable = "subject";
-            var predicate = new Uri("http://dbpedia.org/ontology/author");
-            var objectVariable = "obj";
-            var expectedQuery = "SELECT DISTINCT ?subject, ?obj WHERE { ?subject <http://dbpedia.org/ontology/author> ?obj }";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subjectVariable, predicate, objectVariable, -1);
-            Assert.AreEqual(expectedQuery, query);
-        }
-
-
-        [TestMethod]
-        public void ValidSELECTObjectVariableLimit100()
-        {
-            var subject = new Uri("http://dbpedia.org/resource/Paris");
-            var predicate = new Uri("http://dbpedia.org/ontology/mayor");
-            var objVariable = "uri";
-            var expectedQuery = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Paris> <http://dbpedia.org/ontology/mayor> ?uri } LIMIT 100";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subject, predicate, objVariable, 100);
-            Assert.AreEqual(expectedQuery, query);
-        }
-
-        [TestMethod]
-        public void ValidSELECTPredicateVariableLimit100()
-        {
-            var subject = new Uri("http://dbpedia.org/resource/Family_Guy");
-            var predicateVariable = "predicate";
-            var obj = new Uri("http://dbpedia.org/resource/Seth_MacFarlane");
-            var expectedQuery = "SELECT DISTINCT ?predicate WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate <http://dbpedia.org/resource/Seth_MacFarlane> } LIMIT 100";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subject, predicateVariable, obj, 100);
-            Assert.AreEqual(expectedQuery, query);
-        }
-
-        [TestMethod]
-        public void ValidSELECTSubjectVariableLimit100()
-        {
-            var subjectVariable = "subject";
-            var predicate = new Uri("http://dbpedia.org/ontology/author");
-            var obj = new Uri("http://dbpedia.org/resource/Seth_MacFarlane");
-            var expectedQuery = "SELECT DISTINCT ?subject WHERE { ?subject <http://dbpedia.org/ontology/author> <http://dbpedia.org/resource/Seth_MacFarlane> } LIMIT 100";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subjectVariable, predicate, obj, 100);
-            Assert.AreEqual(expectedQuery, query);
-        }
-
-        [TestMethod]
-        public void ValidSELECTSubjectPredicateVariableLimit100()
-        {
-            var subjectVariable = "uri";
-            var predicateVarible = "predicate";
-            var obj = new Uri("http://dbpedia.org/resource/Paris");
-            var expectedQuery = "SELECT DISTINCT ?uri, ?predicate WHERE { ?uri ?predicate <http://dbpedia.org/resource/Paris> } LIMIT 100";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subjectVariable, predicateVarible, obj, 100);
-            Assert.AreEqual(expectedQuery, query);
+            var query = new dotNetSPARQL.Query.Select(variables, new List<Triple> { triple }, true, -1);
+            Assert.AreEqual(expectedQuery, query.ToString());
         }
 
         [TestMethod]
         public void ValidSELECTPredicateObjectVariableLimit100()
         {
-            var subject = new Uri("http://dbpedia.org/resource/Family_Guy");
-            var predicateVariable = "predicate";
-            var objectVariable = "obj";
-            var expectedQuery = "SELECT DISTINCT ?predicate, ?obj WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate ?obj } LIMIT 100";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subject, predicateVariable, objectVariable, 100);
-            Assert.AreEqual(expectedQuery, query);
+            var expectedQuery = "SELECT DISTINCT ?predicate, ?object WHERE { <http://dbpedia.org/resource/Family_Guy> ?predicate ?object } LIMIT 100";
+
+            var subject = new UriNode(new Uri("http://dbpedia.org/resource/Family_Guy"));
+            var predicate = new VariableNode("predicate");
+            var obj = new VariableNode("object");
+            var triple = new Triple(subject, predicate, obj);
+            var variables = new string[] { "predicate", "object" };
+
+            var query = new dotNetSPARQL.Query.Select(variables, new List<Triple> { triple }, true, 100);
+            Assert.AreEqual(expectedQuery, query.ToString());
         }
 
         [TestMethod]
-        public void ValidSELECTSubjectObjectVariableLimit100()
+        public void ValidSELECTMultipleTriples()
         {
-            var subjectVariable = "subject";
-            var predicate = new Uri("http://dbpedia.org/ontology/author");
-            var objectVariable = "obj";
-            var expectedQuery = "SELECT DISTINCT ?subject, ?obj WHERE { ?subject <http://dbpedia.org/ontology/author> ?obj } LIMIT 100";
-            var queryBuilder = new SPARQL();
-            var query = queryBuilder.SELECT(subjectVariable, predicate, objectVariable, 100);
-            Assert.AreEqual(expectedQuery, query);
+            var expectedQuery = "SELECT DISTINCT ?object WHERE { <http://dbpedia.org/resource/Family_Guy> <http://dbpedia.org/ontology/author> ?uri . ?uri <http://dbpedia.org/ontology/birthPlace> ?object }";
+
+            var subject = new UriNode("http://dbpedia.org/resource/Family_Guy");
+            var predicate = new VariableNode("predicate");
+            var obj = new VariableNode("object");
+            var firstTriple = new Triple(new UriNode("http://dbpedia.org/resource/Family_Guy"), new UriNode("http://dbpedia.org/ontology/author"), new VariableNode("uri"));
+            var secondTriple = new Triple(new VariableNode("uri"), new UriNode("http://dbpedia.org/ontology/birthPlace"), new VariableNode("object"));
+            var variables = new string[] { "object" };
+
+            var query = new dotNetSPARQL.Query.Select(variables, new List<Triple> { firstTriple, secondTriple }, true, -1);
+            Assert.AreEqual(expectedQuery, query.ToString());
         }
     }
 }

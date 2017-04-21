@@ -40,8 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Nodes\INode.cs" />
+    <Compile Include="Nodes\LiteralNode.cs" />
+    <Compile Include="Nodes\Triple.cs" />
+    <Compile Include="Nodes\VariableNode.cs" />
+    <Compile Include="Query\Ask.cs" />
+    <Compile Include="Query\Select.cs" />
     <Compile Include="SPARQL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Nodes\UriNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
