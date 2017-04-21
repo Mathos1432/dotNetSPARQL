@@ -9,14 +9,16 @@ namespace dotNetSPARQL.Nodes
     public class LiteralNode : INode
     {
         private string _value;
-        public LiteralNode(string value)
+        private string _language;
+        public LiteralNode(string value, string language)
         {
             _value = value;
+            _language = language;
         }
 
         public override string ToString()
         {
-            return _value;
+            return "\"" + _value + "\"@" + _language;
         }
     }
 }
