@@ -8,9 +8,9 @@ namespace dotNetSPARQL.Nodes
 {
     public class Triple
     {
-        public INode Subject { get; set; }
-        public INode Predicate { get; set; }
-        public INode Object { get; set; }
+        public INode Subject { get; private set; }
+        public INode Predicate { get; private set; }
+        public INode Object { get; private set; }
 
         public Triple(INode subject, INode predicate, INode obj)
         {

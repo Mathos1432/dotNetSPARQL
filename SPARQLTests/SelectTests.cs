@@ -9,6 +9,20 @@ namespace SPARQLTests
     public class SelectTests
     {
         [TestMethod]
+        public void ValidSELECTObjectVariableNoDistinct()
+        {
+            var expectedQuery = "SELECT ?uri WHERE { <http://dbpedia.org/resource/Paris> <http://dbpedia.org/ontology/mayor> ?uri }";
+
+            var subject = new UriNode(new Uri("http://dbpedia.org/resource/Paris"));
+            var predicate = new UriNode(new Uri("http://dbpedia.org/ontology/mayor"));
+            var obj = new VariableNode("uri");
+            var triple = new Triple(subject, predicate, obj);
+
+            var query = new dotNetSPARQL.Query.Select("uri", triple, false, -1);
+            Assert.AreEqual(expectedQuery, query.ToString());
+        }
+
+        [TestMethod]
         public void ValidSELECTObjectVariableNoLimit()
         {
             var expectedQuery = "SELECT DISTINCT ?uri WHERE { <http://dbpedia.org/resource/Paris> <http://dbpedia.org/ontology/mayor> ?uri }";

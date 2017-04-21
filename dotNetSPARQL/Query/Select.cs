@@ -1,13 +1,9 @@
 ﻿using dotNetSPARQL.Nodes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace dotNetSPARQL.Query
 {
-    public class Select
+    public class Select : BaseQuery
     {
         const int DEFAULT_LIMIT = 100;
 
@@ -48,14 +44,7 @@ namespace dotNetSPARQL.Query
                 }
             }
             query += "WHERE { ";
-            for (int i = 0; i < _triples.Count; i++)
-            {
-                query += _triples[i].ToString();
-                if (i < _triples.Count - 1)
-                {
-                    query += " . ";
-                }
-            }
+            query += CombineTriples(_triples);
             query += " }" + (_limit >= 0 ? " LIMIT " + _limit : "");
             return query;
         }
