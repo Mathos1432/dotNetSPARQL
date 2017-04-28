@@ -80,6 +80,12 @@ namespace dotNetSPARQL.Query
                 {
                     selectQuery += " " + clause.ToString();
                 }
+                else if (clause.GetType() == typeof(UnionClause))
+                {
+                    selectQuery = selectQuery.Insert(selectQuery.IndexOf("{"), "{");
+                    selectQuery = selectQuery.Insert(selectQuery.IndexOf("}") + 1, " " + clause.ToString());
+                    selectQuery = selectQuery.Insert(selectQuery.LastIndexOf("}"), "}");
+                }
             }
             return selectQuery;
         }

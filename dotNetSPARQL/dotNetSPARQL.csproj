@@ -46,6 +46,7 @@
     <Compile Include="Nodes\VariableNode.cs" />
     <Compile Include="Query\Ask.cs" />
     <Compile Include="Query\BaseQuery.cs" />
+    <Compile Include="Query\UnionClause.cs" />
     <Compile Include="Query\CountClause.cs" />
     <Compile Include="Query\BaseClause.cs" />
     <Compile Include="Query\OrderByClause.cs" />

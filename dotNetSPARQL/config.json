@@ -1,0 +1,32 @@
+﻿{
+  "PREFIXS": [
+    {
+      "prefix": "dbo",
+      "uri": "http://dbpedia.org/ontology/"
+    },
+    {
+      "prefix": "dbr",
+      "uri": "http://dbpedia.org/resource/"
+    },
+    {
+      "prefix": "dbp",
+      "uri": "http://dbpedia.org/property/"
+    },
+    {
+      "prefix": "rdf",
+      "uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    },
+    {
+      "prefix": "rdfs",
+      "uri": "http://www.w3.org/2000/01/rdf-schema#"
+    },
+    {
+      "prefix": "xsd",
+      "uri": "http://www.w3.org/2001/XMLSchema#"
+    },
+    {
+      "prefix": "fn",
+      "uri": "http://www.w3.org/2005/xpath-functions#"
+    }
+  ]
+}
